@@ -349,7 +349,7 @@ description = "🚧 Work in Progress"
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/semantic-commit.git
+git clone https://github.com/ckissmann/semantic-commit.git
 cd semantic-commit
 
 # Run tests
@@ -408,7 +408,7 @@ All changes follow [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) form
 - Editor integration requires `$EDITOR` environment variable to be set
 - Windows: May require admin rights for git operations
 
-Report issues on [GitHub Issues](https://github.com/yourusername/semantic-commit/issues).
+Report issues on [GitHub Issues](https://github.com/ckissmann/semantic-commit/issues).
 
 ## 📚 Resources
 
@@ -453,7 +453,7 @@ SOFTWARE.
 
 ## 🌟 Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/semantic-commit&type=Date)](https://star-history.com/#yourusername/semantic-commit&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ckissmann/semantic-commit&type=Date)](https://star-history.com/#yourusername/semantic-commit&Date)
 
 ## 💬 Support
 
