@@ -5,7 +5,7 @@ edition = "2024"
 description = "Semantic commit tool"
 license = "MIT"
 license-file = "LICENSE.md"
-documentation = "README.md"
+documentation = "https://raw.githubusercontent.com/ckissmann/semantic-commit/refs/heads/master/README.md"
 homepage = "https://github.com/ckissmann/semantic-commit"
 repository = "https://github.com/ckissmann/semantic-commit"
 
