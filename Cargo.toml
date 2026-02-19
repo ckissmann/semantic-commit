@@ -1,0 +1,16 @@
+[package]
+name = "semantic-commit"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dialoguer = "0.12.0"
+i18n-embed = { version = "0.15", features = ["fluent-system",  "gettext-system", "autoreload", "desktop-requester"] }
+i18n-embed-fl = "0.9"      # fl!() macro mit compile-time checks
+rust-embed = "8"
+unic-langid = "0.9"
+once_cell = "1"
+
+[[bin]]
+name = "semantic-commit"
+path = "src/main.rs"
