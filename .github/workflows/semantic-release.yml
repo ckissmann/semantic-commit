@@ -1,0 +1,119 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: release
+
+#on:
+#  push:
+#    branches: [ "release" ]
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Is this a release?'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: write
+
+jobs:
+  # TODO: check why windows is not working
+  #windows-build: 
+  #  strategy:
+  #    matrix:
+  #      os: [windows-latest]
+  #
+  #  runs-on: windows-latest
+  #  steps:
+  #  - uses: actions/checkout@v3
+  #  - uses: mlugg/setup-zig@v2
+  #  - run: zig init
+  #  - name: Build windows
+  #    run: sh ./scripts/compile-all.sh --windows
+  #  - uses: actions/upload-artifact@v4
+  # with:
+  #    name: exe-files
+  #     path: dist/*.exe
+
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    # needs: windows-build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: mlugg/setup-zig@v2
+    - run: zig init
+    - name: Build
+      run: sh ./scripts/pipeline-run.sh
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    #- name: Download artifacts
+    #  uses: actions/download-artifact@v4
+    #  with:
+    #    path: artifacts  
+    #- name: Organize files
+    #  run: |
+    #    find artifacts -type f -exec cp {} dist/ \;
+    #    ls -lh dist/
+    - name: Build DEB packages
+      run: |
+        mkdir -p dist/linux_amd64 dist/linux_arm64
+        
+        echo "📦 Building AMD64..."
+        docker buildx build \
+          --platform linux/amd64 \
+          -f Dockerfile.deb-amd64 \
+          --output type=local,dest=dist/tmp-amd64 \
+          .
+        
+        for file in dist/tmp-amd64/*.deb; do
+          [ -f "$file" ] || continue
+          base=$(basename "$file" .deb | sed 's/_amd64$//')
+          mv "$file" "dist/linux_amd64/${base}_amd64.deb"
+        done
+        rm -rf dist/tmp-amd64
+        
+        echo "📦 Building ARM64..."
+        docker buildx build \
+          --platform linux/arm64 \
+          -f Dockerfile.deb-arm64 \
+          --output type=local,dest=dist/tmp-arm64 \
+          .
+        
+        for file in dist/tmp-arm64/*.deb; do
+          [ -f "$file" ] || continue
+          base=$(basename "$file" .deb | sed 's/_arm64$//')
+          mv "$file" "dist/linux_arm64/${base}_arm64.deb"
+        done
+        rm -rf dist/tmp-arm64
+        
+        echo "✅ Packages built:"
+        ls -lh dist/linux_amd64/*.deb dist/linux_arm64/*.deb
+    - name: Generate release tag
+      id: generate_release_tag
+      uses: amitsingh-007/next-release-tag@v4.0.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        tag_prefix: 'v'
+        tag_template: 'yyyy.mm.dd.i'
+    - uses: marvinpinto/action-automatic-releases@latest
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        automatic_release_tag: ${{ steps.generate_release_tag.outputs.next_release_tag }}
+        prerelease: false
+        title: Release ${{ steps.generate_release_tag.outputs.next_release_tag }}
+        files: |
+          README.md
+          dist/SHA*
+          dist/*.*
+          dist/linux_amd64/*.deb
+          dist/linux_arm64/*.deb
+          dist/*.deb
