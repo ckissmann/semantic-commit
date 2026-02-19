@@ -1,324 +1,468 @@
-# glimpse
+# 🚀 Semantic Commit Generator
 
-A simple command-line tool to view Git branches across multiple repositories in subfolders.
+> A beautiful, interactive CLI tool for creating semantic commits with ease.
 
-![glimpse demo](assets/img/image.png)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=flat&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4%EF%B8%8F-red.svg)](https://github.com/yourusername/semantic-commit)
 
-## Overview
+![Demo](docs/demo.gif)
 
-`glimpse` recursively scans directories for Git repositories and displays the currently checked-out branch for each one in a clean, tabular format. Perfect for managing multiple projects or microservices.
+## ✨ Features
 
-## Features
+- 🎨 **Beautiful Interactive CLI** - Intuitive prompts with color themes
+- 📋 **Conventional Commits** - Follows the [Conventional Commits](https://www.conventionalcommits.org/) specification
+- 🌍 **Internationalization** - Multi-language support via i18n
+- ✅ **Pre-commit Validation** - Runs tests and lints before committing
+- 📝 **Rich Editor Support** - Write detailed commit bodies in your favorite editor
+- 🔗 **Issue Tracking** - Automatically link issues in commits
+- 🚢 **Auto Push** - Optional automatic push after commit
+- 🎯 **Breaking Change Support** - Mark breaking changes explicitly
 
-- 🔍 Recursively finds all Git repositories in subfolders
-- 📊 Clean tabular output showing folder names and branches
-- ⚡ Fast and lightweight
-- 🎨 Color-coded output for better readability
+## 📦 Installation
 
-## Installation (Homebrew)
-
-```
-brew tap ckissmann/glimpse
-brew install ckissmann/glimpse/glimpse
-```
-
-## Installation (manual)
+### From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/ckissmann/glimpse.git
-cd glimpse
+git clone https://github.com/ckissmann/semantic-commit.git
+cd semantic-commit
 
-# Make the script executable (if applicable)
-chmod +x glimpse
-
-# Optional: Add to your PATH
-sudo cp glimpse /usr/local/bin/
+# Build and install
+cargo install --path .
 ```
 
-## Usage
-
-Navigate to the parent directory containing your Git repositories and run:
+### From Cargo
 
 ```bash
-glimpse
+cargo install semantic-commit
 ```
 
-### Example Output
+### Binary Releases
 
-```
-Folder          | Branch
-----------------+----------------
-A               | branch-a
-anc             | master
-C               | branch-C
-D               | branch-D
-B               | branch-b
-```
+Download pre-built binaries from the [Releases](https://github.com/ckissmann/semantic-commit/releases) page.
 
-## How It Works
+## 🚀 Quick Start
 
-`glimpse` walks through the current directory and its subdirectories, identifies folders containing a `.git` directory, and extracts the current branch name from each repository.
-
-## Requirements
-
-- Git installed on your system
-- Unix-like environment (Linux, macOS, WSL)
-
-## Contributing
-
-We love contributions! ❤️ This project follows semantic versioning and conventional commits to keep our changelog clean and releases automated.
-
-### 🚀 Quick Start
-
-1. **Fork the repository**
-   - Click the "Fork" button at the top right of this page
-   - This creates your own copy of the project
-
-2. **Clone your fork**
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/glimpse.git
-   cd glimpse
-   ```
-
-3. **Setup**
-   ```bash
-   cd glimpse
-   cargo setup
-   ```
-
-4. **Add upstream remote**
-   ```bash
-   git remote add upstream https://github.com/ckissmann/glimpse.git
-   ```
-
-5. **Create a feature branch**
-   ```bash
-   # Keep your main branch clean and sync it with upstream
-   git checkout main
-   git pull upstream main
-   
-   # Create a new branch for your feature
-   git checkout -b feature/your-feature-name
-   # or for a bugfix
-   git checkout -b fix/your-bugfix-name
-   ```
-
-### 📝 Commit Convention
-
-We use [Conventional Commits](https://www.conventionalcommits.org/) for clear commit messages and automated versioning.
-
-#### Format
-
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-#### Types
-
-- **feat**: A new feature (triggers minor version bump)
-- **fix**: A bug fix (triggers patch version bump)
-- **docs**: Documentation changes only
-- **style**: Code style changes (formatting, missing semicolons, etc.)
-- **refactor**: Code changes that neither fix bugs nor add features
-- **perf**: Performance improvements
-- **test**: Adding or updating tests
-- **chore**: Maintenance tasks, dependency updates, etc.
-- **ci**: Changes to CI/CD configuration
-- **build**: Changes to build system or dependencies
-
-#### Examples
+Simply run:
 
 ```bash
-# New feature (0.1.0 → 0.2.0)
-git commit -m "feat: add recursive depth limit option"
-
-# Bug fix (0.1.0 → 0.1.1)
-git commit -m "fix: handle repositories with detached HEAD state"
-
-# Documentation
-git commit -m "docs: update installation instructions for Windows"
-
-# Breaking change (0.1.0 → 1.0.0)
-git commit -m "feat!: change output format to JSON
-
-BREAKING CHANGE: default output is now JSON instead of table format.
-Use --format=table for the old behavior."
-
-# With scope
-git commit -m "feat(cli): add --color flag to disable colored output"
-git commit -m "fix(parser): correct branch name extraction for special characters"
+semantic-commit
 ```
 
-#### Multi-line Commits
+The tool will guide you through:
+
+1. **Running Tests & Lints** - Automatic validation
+2. **Selecting Commit Type** - Choose from predefined types
+3. **Adding Scope** (optional) - Specify the scope of changes
+4. **Writing Description** - Short, imperative description
+5. **Adding Body** (optional) - Detailed explanation
+6. **Marking Breaking Changes** - Flag incompatible changes
+7. **Linking Issues** - Reference GitHub issues
+8. **Auto Push** (optional) - Push to remote after commit
+
+## 📖 Semantic Commit Rules
+
+This tool follows the **Conventional Commits** specification:
+
+### Commit Message Format
+
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Example
+
+```
+feat(auth): add OAuth2 login support
+
+Implemented Google and GitHub OAuth providers.
+Users can now login using their social accounts.
+
+BREAKING CHANGE: Old session tokens are no longer valid
+Closes #123
+Closes #456
+```
+
+## 🏷️ Commit Types
+
+| Type | Icon | Description | When to Use |
+|------|------|-------------|-------------|
+| `feat` | ✨ | New feature | Adding new functionality |
+| `fix` | 🐛 | Bug fix | Fixing a bug |
+| `docs` | 📚 | Documentation | Changes to documentation only |
+| `style` | 💄 | Code style | Formatting, white-space, etc. (no code change) |
+| `refactor` | ♻️ | Code refactoring | Neither fixes a bug nor adds a feature |
+| `perf` | ⚡ | Performance | Improving performance |
+| `test` | ✅ | Tests | Adding or updating tests |
+| `build` | 🔧 | Build system | Changes to build system or dependencies |
+| `ci` | 👷 | CI/CD | Changes to CI configuration files |
+| `chore` | 🔨 | Maintenance | Other changes that don't modify src or test files |
+| `revert` | ⏪ | Revert | Reverts a previous commit |
+
+### Type Guidelines
+
+#### `feat` - Features
+```bash
+feat: add user registration
+feat(api): implement GraphQL endpoint
+feat(ui)!: redesign dashboard layout
+```
+
+**Use when:**
+- Adding new functionality
+- Implementing new features
+- Creating new components/modules
+
+#### `fix` - Bug Fixes
+```bash
+fix: resolve memory leak in worker thread
+fix(auth): correct token validation logic
+fix(ui): fix button alignment on mobile
+```
+
+**Use when:**
+- Fixing bugs
+- Resolving issues
+- Correcting unexpected behavior
+
+#### `docs` - Documentation
+```bash
+docs: update API documentation
+docs(readme): add installation instructions
+docs: fix typos in contributing guide
+```
+
+**Use when:**
+- Updating README
+- Writing/updating documentation
+- Adding code comments (substantial ones)
+
+#### `style` - Code Style
+```bash
+style: format code with prettier
+style(api): apply consistent naming convention
+style: remove trailing whitespace
+```
+
+**Use when:**
+- Formatting code
+- Fixing linting issues
+- Renaming variables (no logic change)
+
+#### `refactor` - Refactoring
+```bash
+refactor: simplify authentication logic
+refactor(db): optimize query structure
+refactor: extract helper function
+```
+
+**Use when:**
+- Restructuring code
+- Improving code quality
+- Changing implementation without changing behavior
+
+#### `perf` - Performance
+```bash
+perf: optimize image loading
+perf(db): add index to user table
+perf: lazy load components
+```
+
+**Use when:**
+- Improving performance
+- Optimizing algorithms
+- Reducing resource usage
+
+#### `test` - Tests
+```bash
+test: add unit tests for auth service
+test(api): increase test coverage
+test: fix flaky integration test
+```
+
+**Use when:**
+- Adding tests
+- Updating tests
+- Fixing test issues
+
+#### `build` - Build System
+```bash
+build: upgrade webpack to v5
+build(deps): bump lodash from 4.17.19 to 4.17.21
+build: add docker configuration
+```
+
+**Use when:**
+- Updating dependencies
+- Changing build configuration
+- Modifying deployment scripts
+
+#### `ci` - Continuous Integration
+```bash
+ci: add GitHub Actions workflow
+ci: configure automated testing
+ci: update deployment pipeline
+```
+
+**Use when:**
+- Modifying CI/CD pipelines
+- Updating GitHub Actions
+- Changing deployment configs
+
+#### `chore` - Maintenance
+```bash
+chore: update gitignore
+chore: clean up unused files
+chore: update license year
+```
+
+**Use when:**
+- Routine maintenance tasks
+- Updating configs
+- Cleaning up codebase
+
+#### `revert` - Reverting Changes
+```bash
+revert: revert "feat: add experimental feature"
+```
+
+**Use when:**
+- Reverting previous commits
+- Rolling back changes
+
+## 🎯 Scope Guidelines
+
+The **scope** is optional and specifies the part of the codebase affected:
+
+### Common Scopes
+
+```
+api         - API/Backend changes
+ui          - User interface changes
+auth        - Authentication/Authorization
+db          - Database changes
+docs        - Documentation
+config      - Configuration
+core        - Core functionality
+utils       - Utility functions
+tests       - Test-related changes
+deps        - Dependencies
+```
+
+### Examples
 
 ```bash
-git commit -m "feat: add support for filtering by branch pattern" -m "
-- Added --pattern flag to filter repositories
-- Supports glob patterns (e.g., feature/*)
-- Updated documentation with examples
-"
+feat(api): add user search endpoint
+fix(ui): correct button styling on mobile
+docs(readme): add installation section
+refactor(auth): simplify token generation
+perf(db): add index to improve query speed
 ```
 
-### 🔄 Workflow
+## 🚨 Breaking Changes
 
-1. **Make your changes**
-   ```bash
-   # Edit files
-   vim src/main.rs
-   
-   # Test your changes
-   cargo test
-   cargo run
-   ```
-
-2. **Commit with semantic messages**
-   ```bash
-   git add .
-   git commit -m "feat: add new feature"
-   ```
-
-3. **Keep your branch up to date**
-   ```bash
-   git fetch upstream
-   git rebase upstream/main
-   ```
-
-4. **Push to your fork**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-5. **Open a Pull Request**
-   - Go to https://github.com/ckissmann/glimpse
-   - Click "New Pull Request"
-   - Select your fork and branch
-   - Fill in the PR template with details about your changes
-
-### 🎯 Branch Naming Convention
-
-Use descriptive branch names that match your commit type:
+Mark breaking changes with `!` after the type/scope:
 
 ```bash
-feature/add-depth-limit
-feature/json-output
-fix/detached-head-handling
-fix/windows-path-support
-docs/improve-readme
-refactor/simplify-parser
-test/add-integration-tests
-chore/update-dependencies
+feat!: remove deprecated API endpoints
+feat(api)!: change response format
+
+BREAKING CHANGE: The API now returns JSON instead of XML
 ```
 
-### ✅ Pull Request Guidelines
+**When to mark as breaking:**
+- Removing features
+- Changing public APIs
+- Modifying behavior that users depend on
+- Upgrading major versions of dependencies
 
-- **Keep PRs focused**: One feature/fix per PR
-- **Write descriptive titles**: Use conventional commit format
-- **Update documentation**: If you change functionality, update the README
-- **Add tests**: For new features or bug fixes
-- **Keep commits clean**: Squash work-in-progress commits if needed
-- **Follow code style**: Run `cargo fmt` and `cargo clippy`
+## 🔗 Linking Issues
 
-#### PR Title Format
-
-```
-feat: add recursive depth limit option
-fix: handle repositories with detached HEAD
-docs: update installation instructions
-```
-
-### 🧪 Testing
-
-Before submitting your PR:
+Reference issues in the footer:
 
 ```bash
+feat: add dark mode support
+
+Closes #42
+Closes #123
+Fixes #456
+Resolves #789
+```
+
+**Keywords:**
+- `Closes` - Closes an issue
+- `Fixes` - Fixes a bug
+- `Resolves` - Resolves an issue
+
+## 🌍 Internationalization
+
+The tool supports multiple languages. Set your language:
+
+```bash
+# Set language via environment variable
+export LANG=de_DE.UTF-8  # German
+export LANG=en_US.UTF-8  # English
+```
+
+### Supported Languages
+
+- 🇬🇧 English
+- 🇩🇪 German
+
+Want to add your language? See [CONTRIBUTING.md](CONTRIBUTING.md)!
+
+## ⚙️ Configuration
+
+Create a `semantic-commit.toml` in your project root:
+
+```toml
+# Pre-commit checks
+[pre_commit]
+run_tests = true
+run_lint = true
+run_format = false
+
+# Default values
+[defaults]
+push = false
+breaking = false
+
+# Custom commit types
+[[custom_types]]
+name = "wip"
+description = "🚧 Work in Progress"
+```
+
+## 🛠️ Development
+
+### Prerequisites
+
+- Rust 1.70 or higher
+- Git
+
+### Setup
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/semantic-commit.git
+cd semantic-commit
+
 # Run tests
 cargo test
 
-# Check formatting
-cargo fmt --check
+# Run lints
+cargo clippy --all-targets --all-features -- -D warnings
 
-# Run linter
-cargo clippy -- -D warnings
-
-# Build release binary
+# Build
 cargo build --release
 
-# Test the binary
-./target/release/glimpse
+# Run
+cargo run
 ```
 
-### 📋 PR Checklist
+### Project Structure
 
-- [ ] Code follows the project's style guidelines (`cargo fmt`)
-- [ ] No compiler warnings (`cargo clippy`)
-- [ ] All tests pass (`cargo test`)
-- [ ] Documentation updated (if needed)
-- [ ] Commit messages follow conventional commits
-- [ ] Branch is up to date with main
-- [ ] Self-review completed
+```
+semantic-commit/
+├── src/
+│   ├── main.rs           # Main CLI logic
+│   └── lib.rs            # Library functions
+├── i18n/                 # Translations
+│   ├── en/               # English
+│   └── de/               # German
+├── docs/                 # Documentation
+├── tests/                # Integration tests
+├── Cargo.toml
+└── README.md
+```
 
-### 🏷️ Semantic Versioning
+## 🤝 Contributing
 
-This project follows [Semantic Versioning](https://semver.org/):
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) first.
 
-- **Major version** (1.0.0 → 2.0.0): Breaking changes
-  - Use `feat!:` or `fix!:` or add `BREAKING CHANGE:` in commit body
-- **Minor version** (0.1.0 → 0.2.0): New features (backwards compatible)
-  - Use `feat:` commits
-- **Patch version** (0.1.0 → 0.1.1): Bug fixes
-  - Use `fix:` commits
+### How to Contribute
 
-Releases are automated based on commit messages, so following the convention is important!
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/amazing-feature`
+3. Commit your changes: `semantic-commit` 😉
+4. Push to the branch: `git push origin feat/amazing-feature`
+5. Open a Pull Request
 
-### 🤝 Code of Conduct
+### Code of Conduct
 
-- Be respectful and inclusive
-- Provide constructive feedback
-- Focus on the code, not the person
-- Help others learn and grow
+This project adheres to the Contributor Covenant [Code of Conduct](CODE_OF_CONDUCT.md).
 
-### 💡 Ideas and Suggestions
+## 📝 Changelog
 
-Have an idea but don't want to code it yourself? Open an issue!
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes.
 
-1. Go to [Issues](https://github.com/ckissmann/glimpse/issues)
-2. Click "New Issue"
-3. Choose "Feature Request" or "Bug Report"
-4. Describe your idea in detail
+All changes follow [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.
 
-### 🆘 Need Help?
+## 🐛 Known Issues
 
-- Check existing [Issues](https://github.com/ckissmann/glimpse/issues)
-- Read the [Documentation](docs/)
-- Ask in [Discussions](https://github.com/ckissmann/glimpse/discussions)
+- Editor integration requires `$EDITOR` environment variable to be set
+- Windows: May require admin rights for git operations
 
-### 🎉 Recognition
+Report issues on [GitHub Issues](https://github.com/yourusername/semantic-commit/issues).
 
-Contributors are recognized in:
-- The [Contributors](https://github.com/ckissmann/glimpse/graphs/contributors) page
-- Release notes for their specific contributions
-- The project README (for significant contributions)
+## 📚 Resources
 
-Thank you for contributing! 🚀
+- [Conventional Commits Specification](https://www.conventionalcommits.org/)
+- [Semantic Versioning](https://semver.org/)
+- [Keep a Changelog](https://keepachangelog.com/)
+- [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
+```
+MIT License
 
-Your Name (@ckissmann)
+Copyright (c) 2024 [Your Name]
 
-## Acknowledgments
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-- Inspired by the need to quickly check branch status across multiple repositories
-- Built for developers managing multiple Git projects
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+## 🙏 Acknowledgments
+
+- [dialoguer](https://github.com/console-rs/dialoguer) - Beautiful CLI prompts
+- [Conventional Commits](https://www.conventionalcommits.org/) - Specification
+- [gitmoji](https://gitmoji.dev/) - Emoji inspiration
+
+## 🌟 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/semantic-commit&type=Date)](https://star-history.com/#yourusername/semantic-commit&Date)
+
+## 💬 Support
+
+- 📧 Email: your.email@example.com
+- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/semantic-commit/discussions)
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/semantic-commit/issues)
 
 ---
 
-**Note:** Replace `ckissmann` and other placeholder information with your actual GitHub username and details.
+Made with ❤️ by [Your Name](https://github.com/ckissmann)
+
+⭐ Star this repo if you find it helpful!
